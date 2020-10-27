@@ -1,6 +1,6 @@
 specVersion: 0.0.2
 description: Balancer is a non-custodial portfolio manager, liquidity provider, and price sensor.
-repository: https://github.com/balancer-labs/balancer-subgraph
+repository: https://github.com/apy-finance/balancer-subgraph
 schema:
   file: ./schema.graphql
 dataSources:
@@ -18,6 +18,7 @@ dataSources:
       file: ./src/mappings/factory.ts
       entities:
         - Balancer
+        - LogCall
       abis:
         - name: Factory
           file: ./abis/BFactory.json
@@ -28,6 +29,8 @@ dataSources:
       eventHandlers:
         - event: LOG_NEW_POOL(indexed address,indexed address)
           handler: handleNewPool
+        - event: LOG_CALL(indexed bytes4, indexed address, bytes)
+          handler: handleUpdates
 templates:
   - kind: ethereum/contract
     name: Pool

@@ -111,6 +111,16 @@ type TokenPrice @entity {
     poolTokenId: String
 }
 
+type PriceHistory @entity {
+    id: ID!
+    symbol: String
+    name: String
+    decimals: Int!
+    price: BigDecimal!
+    sequenceNumber: Int!
+    poolTokenId: String
+}
+
 enum SwapType {
     swapExactAmountIn,
     swapExactAmountOut,
