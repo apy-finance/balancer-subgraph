@@ -1,7 +1,7 @@
 import { Address, BigInt, BigDecimal } from '@graphprotocol/graph-ts'
 import { LOG_NEW_POOL } from '../types/Factory/Factory'
 import { Balancer, Pool } from '../types/schema'
-import { Pool as PoolContract } from '../types/templates'
+import { Pool as PoolContract, CRP } from '../types/templates'
 import {
   ZERO_BD,
   isCrp,
@@ -66,4 +66,5 @@ export function handleNewPool(event: LOG_NEW_POOL): void {
   factory.save()
 
   PoolContract.create(event.params.pool)
+  CRP.create(event.params.caller)
 }
