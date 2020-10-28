@@ -83,7 +83,6 @@ templates:
       callHandlers:
         - function: gulp(address)
           handler: handleGulp
-templates:
   - kind: ethereum/contract
     name: CRP
     network: mainnet
