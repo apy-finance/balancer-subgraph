@@ -18,7 +18,6 @@ dataSources:
       file: ./src/mappings/factory.ts
       entities:
         - Balancer
-        - LogCall
       abis:
         - name: Factory
           file: ./abis/BFactory.json
@@ -29,8 +28,6 @@ dataSources:
       eventHandlers:
         - event: LOG_NEW_POOL(indexed address,indexed address)
           handler: handleNewPool
-        - event: LOG_CALL(indexed bytes4, indexed address, bytes)
-          handler: handleUpdates
 templates:
   - kind: ethereum/contract
     name: Pool
@@ -86,3 +83,25 @@ templates:
       callHandlers:
         - function: gulp(address)
           handler: handleGulp
+templates:
+  - kind: ethereum/contract
+    name: CRP
+    network: mainnet
+    source:
+      abi: ConfigurableRightsPool
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      file: ./src/mappings/crp.ts
+      entities:
+        - PriceHistory
+      abis:
+        - name: ConfigurableRightsPool
+          file: ./abis/ConfigurableRightsPool.json
+        - name: Pool
+          file: ./abis/BPool.json
+      eventHandlers:
+        - event: LOG_CALL(indexed bytes4,indexed address,bytes)
+          topic0: "0xe211b87500000000000000000000000000000000000000000000000000000000"
+          handler: handlePokeWeights
