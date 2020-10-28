@@ -83,3 +83,24 @@ templates:
       callHandlers:
         - function: gulp(address)
           handler: handleGulp
+  - kind: ethereum/contract
+    name: CRP
+    network: kovan
+    source:
+      abi: ConfigurableRightsPool
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      file: ./src/mappings/crp.ts
+      entities:
+        - PriceHistory
+      abis:
+        - name: ConfigurableRightsPool
+          file: ./abis/ConfigurableRightsPool.json
+        - name: Pool
+          file: ./abis/BPool.json
+      eventHandlers:
+        - event: LogCall(indexed bytes4,indexed address,bytes)
+          topic0: "0xe211b87500000000000000000000000000000000000000000000000000000000"
+          handler: handlePokeWeights
