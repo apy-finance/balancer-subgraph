@@ -26,15 +26,17 @@ export function handlePokeWeights(event: LogCall): void {
 
   for (let i = 0; i < tokens.length; i++) {
     let tokenPrice = TokenPrice.load(tokens[i].toHexString())
-    let priceHistoryId = tokens[i].toHexString().concat('-').concat(event.transaction.hash.toHexString()).concat('-').concat(event.logIndex.toString())
-    let priceHistory = new PriceHistory(priceHistoryId)
+    if (tokenPrice !== null) {
+      let priceHistoryId = tokens[i].toHexString().concat('-').concat(event.transaction.hash.toHexString()).concat('-').concat(event.logIndex.toString())
+      let priceHistory = new PriceHistory(priceHistoryId)
 
-    priceHistory.price = tokenPrice.price
-    priceHistory.timestamp = event.block.timestamp;
-    priceHistory.sequenceNumber = (event.block.timestamp * BigInt.fromI32(100000000)) + event.logIndex;
-    priceHistory.tokenAddress = tokens[i].toHexString()
+      priceHistory.price = tokenPrice.price
+      priceHistory.timestamp = event.block.timestamp;
+      priceHistory.sequenceNumber = (event.block.timestamp * BigInt.fromI32(100000000)) + event.logIndex;
+      priceHistory.tokenAddress = tokens[i].toHexString()
 
-    priceHistory.save()
+      priceHistory.save()
+    }
   }
 
   saveTransaction(event, 'poke')
