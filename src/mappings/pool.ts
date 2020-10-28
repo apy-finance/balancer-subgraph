@@ -7,7 +7,8 @@ import {
   PoolToken,
   PoolShare,
   Swap,
-  TokenPrice
+  TokenPrice,
+  PriceHistory
 } from '../types/schema'
 import {
   hexToDecimal,

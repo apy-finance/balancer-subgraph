@@ -1,8 +1,8 @@
 import { BigInt, Address, Bytes, store } from '@graphprotocol/graph-ts'
-import { LOG_CALL } from '../types/templates/CRP/ConfigurableRightsPool'
-import { CRP } from '../types/templates/CRP/ConfigurableRightsPool'
+import { LogCall } from '../types/templates/CRP/ConfigurableRightsPool'
+import { ConfigurableRightsPool } from '../types/templates/CRP/ConfigurableRightsPool'
 import { Pool } from '../types/templates/CRP/Pool'
-import { PriceHistory } from '../types/schema'
+import { PriceHistory, TokenPrice } from '../types/schema'
 import {
   hexToDecimal,
   bigIntToDecimal,
