@@ -113,13 +113,10 @@ type TokenPrice @entity {
 
 type PriceHistory @entity {
     id: ID!
-    symbol: String
-    name: String
-    decimals: Int!
     price: BigDecimal!
-    timestamp: Int!
-    sequenceNumber: Int!
-    poolTokenAddress: String
+    timestamp: BigInt!
+    sequenceNumber: BigInt!
+    tokenAddress: String!
 }
 
 enum SwapType {
