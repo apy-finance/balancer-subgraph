@@ -19,16 +19,23 @@ import {
  ********** CRP Controls ***********
  ************************************/
 
-export function priceHistory(event: LOG_CALL): void {
-  let poolId = event.address.toHex()
+export function handlePokeWeights(event: LogCall): void {
+  let crp = ConfigurableRightsPool.bind(event.address)
+  let pool = Pool.bind(crp.bPool())
+  let tokens = pool.getCurrentTokens()
 
-  //let crp = ConfigurableRightsPool.bind(event.address)
-  //let pool = Pool.bind(crp.bPool)
+  for (let i = 0; i < tokens.length; i++) {
+    let tokenPrice = TokenPrice.load(tokens[i].toHexString())
+    let priceHistoryId = tokens[i].toHexString().concat('-').concat(event.transaction.hash.toHexString()).concat('-').concat(event.logIndex.toString())
+    let priceHistory = new PriceHistory(priceHistoryId)
 
-  //priceHistory.price
-  priceHistory.timestamp = event.block.timestamp;
-  priceHistory.sequenceNumber = (event.block.timestamp * BigInt.fromI32(100000000)) + event.logIndex;
-  priceHistory.poolTokenAddress = event.address
+    priceHistory.price = tokenPrice.price
+    priceHistory.timestamp = event.block.timestamp;
+    priceHistory.sequenceNumber = (event.block.timestamp * BigInt.fromI32(100000000)) + event.logIndex;
+    priceHistory.tokenAddress = tokens[i].toHexString()
+
+    priceHistory.save()
+  }
 
   saveTransaction(event, 'poke')
 }
