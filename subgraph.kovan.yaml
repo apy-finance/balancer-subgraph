@@ -43,6 +43,7 @@ templates:
         - Pool
         - Balancer
         - Swap
+        - PriceHistory
       abis:
         - name: Pool
           file: ./abis/BPool.json
