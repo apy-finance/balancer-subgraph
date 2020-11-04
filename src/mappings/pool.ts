@@ -301,25 +301,25 @@ export function handleSwap(event: LOG_SWAP): void {
   swap.timestamp = event.block.timestamp.toI32()
   swap.save()
 
-  let tokenInPrice = TokenPrice.load(tokenIn)
+  let tokenInPrice = TokenPrice.load(event.params.tokenIn.toHex())
   if (tokenInPrice !== null) {
     let tokenInPriceHistoryId = tokenIn.concat('-').concat(event.transaction.hash.toHexString()).concat('-').concat(event.logIndex.toString())
     let tokenInPriceHistory = new PriceHistory(tokenInPriceHistoryId)
     tokenInPriceHistory.price = tokenInPrice.price
-    tokenInPriceHistory.timestamp = event.block.timestamp;
+    tokenInPriceHistory.timestamp = event.block.timestamp
     tokenInPriceHistory.sequenceNumber = (event.block.timestamp * BigInt.fromI32(100000000)) + event.logIndex;
-    tokenInPriceHistory.tokenAddress = tokenIn
+    tokenInPriceHistory.tokenAddress = event.params.tokenIn
     tokenInPriceHistory.save()
   }
 
-  let tokenOutPrice = TokenPrice.load(tokenOut)
+  let tokenOutPrice = TokenPrice.load(event.params.tokenOut.toHex())
   if (tokenOutPrice !== null) {
     let tokenOutPriceHistoryId = tokenOut.concat('-').concat(event.transaction.hash.toHexString()).concat('-').concat(event.logIndex.toString())
     let tokenOutPriceHistory = new PriceHistory(tokenOutPriceHistoryId)
     tokenOutPriceHistory.price = tokenOutPrice.price
-    tokenOutPriceHistory.timestamp = event.block.timestamp;
+    tokenOutPriceHistory.timestamp = event.block.timestamp
     tokenOutPriceHistory.sequenceNumber = (event.block.timestamp * BigInt.fromI32(100000000)) + event.logIndex;
-    tokenOutPriceHistory.tokenAddress = tokenOut
+    tokenOutPriceHistory.tokenAddress = event.params.tokenOut
     tokenOutPriceHistory.save()
   }
 

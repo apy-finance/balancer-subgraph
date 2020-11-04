@@ -116,7 +116,7 @@ type PriceHistory @entity {
     price: BigDecimal!
     timestamp: BigInt!
     sequenceNumber: BigInt!
-    tokenAddress: String!
+    tokenAddress: Bytes!
 }
 
 enum SwapType {
